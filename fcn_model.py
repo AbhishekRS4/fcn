@@ -143,24 +143,24 @@ class FCN:
         self.logits = self._get_conv2d_layer(self.conv_tr1, self.num_classes, self.conv_same_kernel_size, self.conv_strides, self.padding, self.data_format, name = 'logits')
         
     # return convolution2d layer
-    def _get_conv2d_layer(self, input_tensor, num_filters, kernel_size, strides, padding, data_format, name = 'conv'):
-        return tf.layers.conv2d(inputs = input_tensor, filters = num_filters, kernel_size = kernel_size, strides = strides, padding = padding, data_format = data_format, kernel_initializer = self.initializer, name = name)
+    def _get_conv2d_layer(self, input_layer, num_filters, kernel_size, strides, padding, data_format, name = 'conv'):
+        return tf.layers.conv2d(inputs = input_layer, filters = num_filters, kernel_size = kernel_size, strides = strides, padding = padding, data_format = data_format, kernel_initializer = self.initializer, name = name)
 
     # return convolution2d_transpose layer
-    def _get_conv2d_transpose_layer(self, input_tensor, num_filters, kernel_size, strides, padding, data_format, name = 'conv_tr'):
-        return tf.layers.conv2d_transpose(inputs = input_tensor, filters = num_filters, kernel_size = kernel_size, strides = strides, padding = padding, data_format = data_format, kernel_initializer = self.initializer, name = name)
+    def _get_conv2d_transpose_layer(self, input_layer, num_filters, kernel_size, strides, padding, data_format, name = 'conv_tr'):
+        return tf.layers.conv2d_transpose(inputs = input_layer, filters = num_filters, kernel_size = kernel_size, strides = strides, padding = padding, data_format = data_format, kernel_initializer = self.initializer, name = name)
 
     # return ELU activation function
-    def _get_elu_activation(self, input_tensor, name = 'elu'):
-        return tf.nn.elu(input_tensor, name = name)
+    def _get_elu_activation(self, input_layer, name = 'elu'):
+        return tf.nn.elu(input_layer, name = name)
 
     # return the dropout layer
-    def _get_dropout_layer(self, input_tensor, rate = 0.5, name = 'dropout'):
-        return tf.layers.dropout(inputs = input_tensor, rate = rate, training = self.training, name = name)
+    def _get_dropout_layer(self, input_layer, rate = 0.5, name = 'dropout'):
+        return tf.layers.dropout(inputs = input_layer, rate = rate, training = self.training, name = name)
 
     # return batch normalization layer
-    def _get_batch_norm_layer(self, input_tensor, name = 'bn'):
-        return tf.layers.batch_normalization(input_tensor, axis = self.bn_axis, training = self.training, name = name)
+    def _get_batch_norm_layer(self, input_layer, name = 'bn'):
+        return tf.layers.batch_normalization(input_layer, axis = self.bn_axis, training = self.training, name = name)
 
     # perform maxpool2d in vgg16 encoder
     def _max_pool(self, input_layer, name):
