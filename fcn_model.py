@@ -27,7 +27,7 @@ class FCN:
  
         '''
         based on the data format set appropriate pool_kernel and pool_strides
-        always use channels_first i.e. NCHW as the data format on a GPU as it exploits faster GPU memory access
+        always use channels_first i.e. NCHW as the data format on a GPU as it exploits coalesced memory access
         '''
 
         if data_format == 'channels_first':
