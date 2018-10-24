@@ -3,12 +3,9 @@
 import os
 import json
 import numpy as np
-import cv2
 import tensorflow as tf
-from sklearn.metrics import accuracy_score
-from sklearn.utils import shuffle
 
-IMAGENET_MEAN = np.array([103.939, 116.779, 123.68]).reshape(3, 1).T
+IMAGENET_MEAN = np.array([103.939, 116.779, 123.68]).reshape(1, 3)
 
 # read the json file and return the content
 def read_config_file(json_file_name):
@@ -25,21 +22,21 @@ def init(directory):
 
 # parse function for tensorflow dataset api
 def parse_fn(img_name, lbl_name):
-    img_string = tf.read_file(img_name) 
+    img_string = tf.read_file(img_name)
     lbl_string = tf.read_file(lbl_name)
 
-    img = tf.image.decode_png(img_string, channels = 3)
-    lbl = tf.image.decode_png(lbl_string, channels = 0)
+    img = tf.image.decode_png(img_string, channels=3)
+    lbl = tf.image.decode_png(lbl_string, channels=0)
 
-    img = tf.cast(img, dtype = tf.float32)
-    lbl = tf.cast(lbl, dtype = tf.int32)
+    img = tf.cast(img, dtype=tf.float32)
+    lbl = tf.cast(lbl, dtype=tf.int32)
 
-    img_r, img_g, img_b = tf.split(value = img, axis = 2, num_or_size_splits = 3) 
-    img = tf.concat(values = [img_b, img_g, img_r], axis = 2)
+    img_r, img_g, img_b = tf.split(value=img, axis=2, num_or_size_splits=3)
+    img = tf.concat(values=[img_b, img_g, img_r], axis=2)
     img = img - IMAGENET_MEAN
 
-    img = tf.transpose(img, perm = [2, 0, 1])
-    lbl = tf.transpose(lbl, perm = [2, 0, 1])
+    img = tf.transpose(img, perm=[2, 0, 1])
+    lbl = tf.transpose(lbl, perm=[2, 0, 1])
 
     return img, lbl
 
@@ -47,9 +44,9 @@ def parse_fn(img_name, lbl_name):
 def get_tf_dataset(images_list, labels_list, num_epochs, batch_size):
     dataset = tf.data.Dataset.from_tensor_slices((images_list, labels_list))
     dataset = dataset.shuffle(1000)
-    dataset = dataset.map(parse_fn, num_parallel_calls = 8)
+    dataset = dataset.map(parse_fn, num_parallel_calls=8)
     dataset = dataset.batch(batch_size)
     dataset = dataset.repeat(num_epochs)
-    dataset = dataset.prefetch(1)
+    dataset = dataset.prefetch(batch_size)
 
-    return dataset    
+    return dataset
