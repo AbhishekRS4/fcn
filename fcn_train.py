@@ -143,11 +143,12 @@ def batch_train(FLAGS):
     train_var_list = [v for v in tf.trainable_variables()]
 
     loss_1 = compute_loss(labels, logits, axis=axis)
-    acc_value, acc_op = compute_metrics(
-        labels, logits, axis=axis, num_classes=FLAGS.num_classes)
     loss_2 = FLAGS.weight_decay * \
         tf.add_n([tf.nn.l2_loss(v) for v in train_var_list])
     loss = loss_1 + loss_2
+
+    acc_value, acc_op = compute_metrics(
+        labels, logits, axis=axis, num_classes=FLAGS.num_classes)
 
     global_step = tf.placeholder(tf.int32)
     optimizer_op = get_optimizer(FLAGS.learning_rate, loss, global_step)
@@ -175,14 +176,12 @@ def batch_train(FLAGS):
 
         ss.run(init_op_train)
         for batch_id in range(num_batches_train):
-
             _, _, loss_per_batch = ss.run([extra_update_op, optimizer_op, loss], feed_dict={
                                           is_training: True, global_step: epoch})
             temp_train_loss_per_epoch += loss_per_batch
 
         ss.run(init_op_valid)
         for batch_id in range(num_batches_valid):
-
             loss_per_batch, _ = ss.run(
                 [loss_1, acc_op], feed_dict={is_training: False})
             temp_valid_loss_per_epoch += loss_per_batch
