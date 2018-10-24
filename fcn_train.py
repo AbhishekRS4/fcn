@@ -165,14 +165,12 @@ def batch_train(FLAGS):
     train_loss_per_epoch = list()
     valid_loss_per_epoch = list()
     valid_acc_per_epoch = list()
-    valid_mean_iou_per_epoch = list()
 
     for epoch in range(FLAGS.num_epochs):
         ti = time.time()
         temp_train_loss_per_epoch = 0
         temp_valid_loss_per_epoch = 0
         temp_valid_acc_per_epoch = 0
-        temp_valid_mean_iou_per_epoch = 0
 
         ss.run(init_op_train)
         for batch_id in range(num_batches_train):
@@ -223,6 +221,7 @@ def batch_train(FLAGS):
     losses_dict = dict()
     losses_dict['train_loss'] = train_loss_per_epoch
     losses_dict['valid_loss'] = valid_loss_per_epoch
+    losses_dict['valid_acc'] = valid_acc_per_epoch
 
     np.save(os.path.join(os.getcwd(), model_dir,
                          FLAGS.model_metrics), (losses_dict))
