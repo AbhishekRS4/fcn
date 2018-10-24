@@ -90,9 +90,7 @@ def infer(FLAGS):
 
     print('Running inference on following data : ' + images_dir_infer)
 
-    os.environ['CUDA_VISIBLE_DEVICES'] = '1'
-    ss = tf.Session(config=tf.ConfigProto(device_count={'GPU': 2}))
-    #ss = tf.Session()
+    ss = tf.Session()
     ss.run(tf.global_variables_initializer())
 
     # load the model parameters
