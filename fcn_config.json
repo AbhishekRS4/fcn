@@ -1,25 +1,31 @@
 {
-    "train_images_path" : "/home/abhishek/cityscapes/resized_images/train/",
-    "train_labels_path" : "/home/abhishek/cityscapes/resized_labels/train/",
-    "valid_images_path" : "/home/abhishek/cityscapes/resized_images/valid/",
-    "valid_labels_path" : "/home/abhishek/cityscapes/resized_labels/valid/",
-    "test_images_path" : ["/home/abhishek/cityscapes/resized_images/test/", "/home/abhishek/cityscapes/resized_images/valid/"],
-    "vgg_path" : "/home/abhishek_data/models/vgg_16/vgg16.npy",
-    "training" : 1,
-    "num_classes" : 15,
-    "num_kernels" : [64, 128, 256, 512, 4096],
-    "conv_kernel_size" : [7, 7],
-    "conv_tr_kernel_size" : [[4, 4], [16, 16], [32, 32], [64, 64]],
-    "conv_same_kernel_size" : [1, 1],
-    "conv_strides" : [1, 1],
-    "conv_tr_strides" : [[2, 2], [8, 8], [16, 16], [32, 32]],
-    "data_format" : "channels_first",
-    "learning_rate" : 0.001,
-    "num_epochs" : 150,
-    "checkpoint_epoch" : 5,
-    "batch_size" : 16,
-    "model_metrics" : "losses.npy",
-    "model_file" : "model",
-    "model_directory" : ["model_fcn8_", "model_fcn16_", "model_fcn32_"],
-    "model_to_use" : 3
+    "data": {
+        "images_dir_train": "/home/abhishek/cityscapes/resized_images/train/",
+        "labels_dir_train": "/home/abhishek/cityscapes/resized_labels/train/",
+        "images_dir_valid": "/home/abhishek/cityscapes/resized_images/valid/",
+        "labels_dir_valid": "/home/abhishek/cityscapes/resized_labels/valid/"
+    },
+    "model": {
+        "pretrained_weights": "/home/abhishek/pretrained_models/vgg/vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5",
+        "data_format": "channels_first",
+        "num_classes": 15
+    },
+    "training": {
+        "learning_rate": 0.001,
+        "num_epochs": 5,
+        "batch_size": 16,
+        "weight_decay": 0.0005,
+        "checkpoint_epoch": 5
+    },
+    "checkpoint": {
+        "model_dir": "model_",
+        "model_file": "fcn",
+        "model_metrics": "metrics.npy",
+        "model_to_use": "fcn8"
+    },
+    "inference": {
+        "data_dir": "/home/abhishek/cityscapes/resized_images/",
+        "which_checkpoint_model": 5,
+        "which_set": "valid"
+    }
 }
