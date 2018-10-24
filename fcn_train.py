@@ -56,8 +56,8 @@ def get_optimizer(initial_learning_rate, loss_function, global_step, epsilon=0.0
 # save the trained model
 def save_model(session, model_dir, model_file, epoch):
     saver = tf.train.Saver()
-    saver.save(session, os.path.join(os.getcwd(), os.path.join(
-        model_dir, model_file)), global_step=(epoch + 1))
+    saver.save(session, os.path.join(os.getcwd(), model_dir,
+        model_file), global_step=(epoch + 1))
 
 # start batch training of the network
 def batch_train(FLAGS):
