@@ -12,7 +12,7 @@
     },
     "training": {
         "learning_rate": 0.001,
-        "num_epochs": 5,
+        "num_epochs": 100,
         "batch_size": 16,
         "weight_decay": 0.0005,
         "checkpoint_epoch": 5
@@ -25,7 +25,7 @@
     },
     "inference": {
         "data_dir": "/home/abhishek/cityscapes/resized_images/",
-        "which_checkpoint_model": 5,
+        "which_checkpoint_model": 100,
         "which_set": "valid"
     }
 }
