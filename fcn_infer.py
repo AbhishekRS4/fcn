@@ -11,6 +11,7 @@ import tensorflow as tf
 import fcn_model
 from fcn_utils import read_config_file, init
 
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 IMAGENET_MEAN = np.array([103.939, 116.779, 123.68]).reshape(1, 3)
 
 param_config_file_name = os.path.join(os.getcwd(), 'fcn_config.json')
@@ -64,7 +65,7 @@ def infer(FLAGS):
     print('Loading the network.....................')
     test_dataset = get_tf_dataset(list_images_infer, 1, 1)
     iterator = test_dataset.make_one_shot_iterator()
-    images_features_infer = iterator.get_next()
+    image_features_infer = iterator.get_next()
 
     axis = -1
     if FLAGS.data_format == 'channels_first':
@@ -73,7 +74,7 @@ def infer(FLAGS):
     training_pl = tf.placeholder(tf.bool)
     net_arch = fcn_model.FCN(FLAGS.pretrained_weights,
                              training_pl, FLAGS.data_format, FLAGS.num_classes)
-    net_arch.vgg16_encoder(images_features_infer)
+    net_arch.vgg16_encoder(image_features_infer)
 
     if FLAGS.model_to_use == 'fcn8':
         net_arch.fcn8()
