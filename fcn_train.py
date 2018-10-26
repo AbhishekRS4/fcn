@@ -212,7 +212,7 @@ def batch_train(FLAGS):
     save_model(ss, model_dir, FLAGS.model_file, epoch)
     train_loss_per_epoch = np.array(train_loss_per_epoch)
     valid_loss_per_epoch = np.array(valid_loss_per_epoch)
-    valid_acc_per_epoch = np.array(valid_loss_per_epoch)
+    valid_acc_per_epoch = np.array(valid_acc_per_epoch)
 
     train_loss_per_epoch = np.true_divide(
         train_loss_per_epoch, num_batches_train)
