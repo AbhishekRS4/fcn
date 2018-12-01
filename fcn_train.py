@@ -13,9 +13,8 @@ import fcn_model
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 param_config_file_name = os.path.join(os.getcwd(), 'fcn_config.json')
 
-# define metrics 
+# define metrics
 def compute_metrics(groundtruth, prediction, axis=1, num_classes=15):
-    groundtruth = tf.squeeze(groundtruth)
     prediction_labels = tf.argmax(
         tf.nn.softmax(prediction, axis=axis), axis=axis)
 
@@ -26,12 +25,8 @@ def compute_metrics(groundtruth, prediction, axis=1, num_classes=15):
 
 # define cross entropy loss
 def compute_loss(groundtruth, prediction, axis=1, name='mean_cross_entropy'):
-
     if axis == 1:
         prediction = tf.transpose(prediction, perm=[0, 2, 3, 1])
-        groundtruth = tf.transpose(groundtruth, perm=[0, 2, 3, 1])
-
-    groundtruth = tf.squeeze(groundtruth)
 
     mean_ce = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(
         labels=groundtruth, logits=prediction), name=name)
@@ -57,7 +52,7 @@ def get_optimizer(initial_learning_rate, loss_function, global_step, epsilon=0.0
 def save_model(session, model_dir, model_file, epoch):
     saver = tf.train.Saver()
     saver.save(session, os.path.join(os.getcwd(), model_dir,
-        model_file), global_step=(epoch + 1))
+                                     model_file), global_step=(epoch + 1))
 
 # start batch training of the network
 def batch_train(FLAGS):
@@ -232,6 +227,7 @@ def batch_train(FLAGS):
 
     ss.close()
 
+
 def main():
     print('Reading the config file..................')
     config = read_config_file(param_config_file_name)
@@ -298,6 +294,7 @@ def main():
     FLAGS, unparsed = parser.parse_known_args()
 
     batch_train(FLAGS)
+
 
 if __name__ == '__main__':
     main()
