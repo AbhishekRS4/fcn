@@ -22,21 +22,26 @@ def init(directory):
 
 # parse function for tensorflow dataset api
 def parse_fn(img_name, lbl_name):
+    # read
     img_string = tf.read_file(img_name)
     lbl_string = tf.read_file(lbl_name)
 
+    # decode
     img = tf.image.decode_png(img_string, channels=3)
     lbl = tf.image.decode_png(lbl_string, channels=0)
+    lbl = tf.squeeze(lbl)
 
+    # datatype casting
     img = tf.cast(img, dtype=tf.float32)
     lbl = tf.cast(lbl, dtype=tf.int32)
 
+    # preprocessing
     img_r, img_g, img_b = tf.split(value=img, axis=2, num_or_size_splits=3)
     img = tf.concat(values=[img_b, img_g, img_r], axis=2)
     img = img - IMAGENET_MEAN
 
+    # CHW format
     img = tf.transpose(img, perm=[2, 0, 1])
-    lbl = tf.transpose(lbl, perm=[2, 0, 1])
 
     return img, lbl
 
