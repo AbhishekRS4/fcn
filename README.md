@@ -6,11 +6,14 @@
 * 15 custom classes used
 
 ## Instructions to run
-> To run training use - **python3 fcn\_train.py -h**
->
-> To run inference use - **python3 fcn\_infer.py -h**
->
-> This lists all possible commandline arguments
+* To list training options
+```
+python3 fcn_train.py --help
+```
+* To list inference options
+```
+python3 fcn_infer.py --help
+```
 
 ## Visualization of results
 * [FCN-8](https://youtu.be/LF6KWpqYUkE)
@@ -21,11 +24,3 @@
 * [VGG](https://arxiv.org/abs/1409.1556)
 * [FCN](https://people.eecs.berkeley.edu/~jonlong/long_shelhamer_fcn.pdf)
 * [Cityscapes Dataset](https://www.cityscapes-dataset.com/)
-
-## To do
-- [x] load pretrained vgg-16 model
-- [x] fcn-8
-- [x] fcn-16
-- [x] fcn-32
-- [x] visualize results 
-- [ ] compute metrics for validation set
